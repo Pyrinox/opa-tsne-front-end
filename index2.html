@@ -1,0 +1,1551 @@
+<html>                                                                  
+ <head>      
+  <title>all spring 2016 graduates</title>
+  <meta charset="utf-8"> 
+  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="bootstrap_3.3.5.css"></link>
+  <link rel="stylesheet" href="bootstrap_theme_3.3.5.css"></link>
+  <link rel="stylesheet" href="bootstrap-tagsinput.css">
+   <!-- <script type="text/javascript" src="queue.min.js"></script> -->
+   
+   <!-- <script type="text/javascript" src="d3.v3.min.js"></script> -->
+   <!--    <script type="text/javascript" src="tsne.js"></script> -->
+  <!-- <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.min.js"></script>
+  <script type="text/javascript" src="d3.tip.js"></script>
+  <script src="jquery-1.10.2.min.js"></script>
+  <script src="typeahead.bundle.min.js"></script>
+  <script src="typeahead.jquery.min.js"></script>
+  <script src="bloodhound.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="bootstrap-tagsinput.min.js"></script>
+  <script src="papaparse.js"></script> -->
+  <style>
+    body { 
+      /*overflow: scroll;*/
+      font: 300 12pt 'Lato', sans-serif; 
+      color: #666;
+    }
+    #header {
+      font: 300 16pt 'Lato', sans-serif;
+      color: #666;
+    }
+    #footer {
+      /*position: absolute;*/
+      /*margin-top: 1em;*/
+      /*top: 850;*/
+      font: 300 8pt 'Lato', sans-serif;
+      bottom: 0.25em;
+      margin-left: 20px;
+    }
+    emph {
+       font-weight: 700;
+    }
+    .nnn {
+      font: 300 12pt 'Lato', sans-serif;
+    }
+   /* button#resize, button#export {
+        border-width: 1;
+        background: #fff;
+        vertical-align: middle;
+        margin-left: 6px;
+    }*/
+    label {
+      /*margin-right: 6px;*/
+      /*font-weight: 700;*/
+        color: #666;
+        font: 400 10pt 'Lato', sans-serif; 
+        margin-right: 0.5em;
+        margin-left: 0.5em;
+    }
+    #filterbydivision, 
+    #filterbycolor,
+    #filterbyentry,
+    #filterbycoursefocus,
+    #toggle-annotations,
+    #vennmodetoggle,
+    #vennmode-container,
+    #about-container  {
+      margin-top: 0;
+      margin-bottom: 0;
+      display: inline-block;
+      font: 300 10pt 'Lato', sans-serif;
+      color: #444; 
+      vertical-align: text-top;
+    }
+    #filter-container {
+      display:  block;
+      /*background-color: rgba(255, 255, 255, 0.4);*/
+      margin-left: 20px;
+    }
+    #entryfilter-container,
+    #divisionfilter-container,
+    #coursefilter-container,
+    #colorfilter-container,
+    #btnresetexport-container,
+    #toggle-annotations,
+    #vennmode-container {
+      display: inline-block;
+      margin-top: 0.15em;
+      margin-bottom: 0.15em;
+    }
+    #btnresetexport-container,
+    #vennmode-container {
+      padding-right: 20px;
+    }
+     #colorfilter-label {
+      float: left;
+      margin-top: .15em;
+      margin-right: 0.5em;
+     }
+     #vennmode-label {
+      float: left;
+      margin-top: .15em;
+      margin-left: 2em;
+      margin-right: 0em;
+     }
+    .filter-text {
+      vertical-align: middle;
+    }
+    #instructions {
+      display: inline-block;
+      font: 300 10pt 'Lato', sans-serif; 
+    }
+  
+/*    #filter-container ::after {
+      background-image: url("FFFFFF-0.png");
+    }*/
+    g.axis g.tick line, g.axis path {
+        stroke: none;
+    }
+    #majorfilter, #minorfilter  {
+      /*margin-left: 30px;*/
+      margin-right: 6px;
+      display: inline-block;
+     /* font: 300 10pt 'Lato', sans-serif;*/
+      vertical-align: middle;
+    }
+    input#chk-annotations {
+          margin-right: 0.5em;
+          margin-left: 1em;
+    }
+    span.or {
+      font: 600 12pt 'Lato', sans-serif;
+      color: #525252;
+      margin-left: 20px;
+      vertical-align: middle;
+    }
+     circle.swatch {
+      opacity: 0.75;
+    }
+    .course-title,
+    .sum-label,
+    #minimatrix-title,
+    #num-brushed,
+    g.legendCells text.label,
+    g.axis g.tick text {
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    font: 400 9pt 'PT Sans', sans-serif;
+    }
+    #minimatrix-title {
+        font: 400 9pt 'PT Sans', sans-serif;
+    }
+    
+    .d3-tip {
+      line-height: 1;
+      /*font-weight: bold;*/
+      padding: 8px;
+      background: rgba(240, 255, 255,0.9);
+      color: #525252;
+      border-radius: 4px;
+      border-width: 2px;
+      border-color: #525252;
+      pointer-events: none;
+    }
+    /* Creates a small triangle extender for the tooltip */
+    .d3-tip:after {
+      box-sizing: border-box;
+      display: inline;
+      font-size: 10pt;
+      width: 100%;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      pointer-events: none;
+    }
+    .d3-tip.n:after {
+      content: "\25BC";
+      margin: -1px 0 0 0;
+      top: 100%;
+      left: 0;
+      text-align: center;
+    }
+        :root {
+        --annotation-color: #525252;
+    }
+      .annotations {
+        pointer-events: none;
+      }
+      .annotation path {
+        stroke: var(--annotation-color);
+        fill: rgba(0,0,0,0);
+      }
+      .annotation path.connector-arrow{
+        fill: var(--annotation-color);
+      }
+      .annotation text {
+        fill: var(--annotation-color);
+      }
+      .annotation-title {
+        font-weight: bold;
+      }
+       circle.handle {
+        stroke-dasharray: 5;
+        stroke: var(--annotation-color);
+        fill: rgba(255, 255, 255, .5);
+        cursor: move;
+        stroke-opacity: .4;
+      }
+      circle.handle.highlight {
+        stroke-opacity: 1;
+      }
+        
+       .annotation-note-bg {
+          fill: rgba(255, 255, 255, 0);
+        }
+/* scaffolding */
+/* ----------- */
+html {
+  overflow-y: scroll;
+  *overflow-x: hidden;
+}
+/*.container {
+  max-width: 750px;
+  margin: 0 auto;
+  text-align: center;
+}*/
+.tt-menu,
+.gist {
+  text-align: left;
+}
+/* base styles */
+/* ----------- */
+/*html {
+  font: normal normal normal 18px/1.2 "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  color: #292f33;
+}*/
+a {
+  color: #03739c;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.table-of-contents li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.table-of-contents li a {
+  font-size: 16px;
+  color: #999;
+}
+p + p {
+  margin: 30px 0 0 0;
+}
+/* site theme */
+/* ---------- */
+.title {
+  margin: 20px 0 0 0;
+  font-size: 64px;
+}
+.example {
+  padding: 30px 0;
+}
+.example-name {
+  margin: 20px 0;
+  font-size: 32px;
+}
+.demo {
+  position: relative;
+  *z-index: 1;
+  margin: 50px 0;
+}
+/*.twitter-typeahead,*/
+.tt-query,
+.tt-hint {
+  width: 196px;
+  height: 20px;
+  padding: 8px 12px;
+  font: 400 10pt 'Lato', sans-serif; 
+  /*font-size: 24px;*/
+  line-height: 20px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+.twitter-typeahead {
+  background-color: #fff;
+}
+.twitter-typeahead:focus {
+  border: 2px solid #0097cf;
+}
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.tt-hint {
+  color: #999
+}
+.tt-menu {
+  width: 222px;
+  margin: 12px 0;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.gist {
+  font-size: 14px;
+}
+        
+  </style>
+</head>
+   <body>
+    <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top">
+<!--       <div class="container"> -->
+        <div class="navbar-header">
+             <div id="filter-container">
+             <div id="header"><span style="color:steelblue;">... loading ... wait for it ...</span></div>
+               <div id="entryfilter-container">
+                 <div id='filterbyentry' class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-info entryfilter active">
+                    <input type="radio" name="entry" id="freshmen"  value="freshmen" autocomplete="off"> Freshmen
+                  </label>
+                  <label class="btn btn-info entryfilter">
+                    <input type="radio" name="entry" id="transfer" value="transfer" autocomplete="off"> Transfer
+                  </label>
+                </div>
+              </div>
+              <div id="divisionfilter-container">
+                <span class="filter-text"> students, clustered by the </span>
+                <div id='filterbydivision' class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-info divisionfilter active">
+                    <input type="radio" name="division" id="lower" value="lower" autocomplete="off"> Lower
+                  </label>
+                  <label class="btn btn-info divisionfilter">
+                    <input type="radio" name="division" id="upper" value="upper" autocomplete="off"> Upper
+                  </label>
+                </div>
+              </div>
+              <div id="coursefilter-container">
+                <span class="filter-text"> division course </span>
+                <div id='filterbycoursefocus' class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-info coursefilter active">
+                    <input type="radio" name="coursefocus" id="subject" value="subject" autocomplete="off"> Subjects
+                  </label>
+                  <label class="btn btn-info coursefilter">
+                    <input type="radio" name="coursefocus" id="course" value="course" autocomplete="off"> Numbers
+                  </label>
+                </div>
+                <span class="filter-text"> that they took at UC Berkeley.</span>
+              </div>
+               <div id="btnresetexport-container" >
+                <button class="btn btn-default" id="resize" title="Reset the bounds of the graphic.">Reset the zoom <img src="noun_147200_cc.png" style="height:1em;" ></img> </button>
+                <button class="btn btn-default" id="export" style="opacity:0;" title="Download the student and course data."> Export the selection <img src="noun_868116_cc.png" style="width:18px;"></img></button>
+              </div>
+              <div id="colorfilter-container">
+              
+                <div id='filterbycolor' class="btn-group" data-toggle="buttons">
+                <label id="colorfilter-label" style="float:left;"> Circle Color: </label>
+                  <label class="btn btn-info colorfilter active">
+                    <input type="radio" name="mode" id="same"  value="same" autocomplete="off"> Same Color
+                  </label>
+                  <label class="btn btn-info colorfilter">
+                    <input type="radio" name="mode" id="college" value="college" autocomplete="off"> School/College
+                  </label>
+                  <label class="btn btn-info colorfilter">
+                    <input type="radio" name="mode" id="div" value="div" autocomplete="off"> Academic Division
+                  </label>
+                  <label class="btn btn-info colorfilter">
+                    <input type="radio" name="mode" id="majortype" value="majortype" autocomplete="off"> # of Majors
+                  </label>
+                  <label class="btn btn-info colorfilter">
+                    <input type="radio" name="mode" id="ttd" value="ttd" autocomplete="off"> Time-to-Degree
+                  </label>
+                  <label class="btn btn-info colorfilter">
+                    <input type="radio" name="mode" id="ethnicity" value="ethnicity" autocomplete="off"> Ethnicity
+                  </label>
+                </div> <!-- filterbycolor  -->
+              </div> <!-- colorfilter container -->
+              <div id='toggle-annotations'>
+                 <label title="Highlight a few areas in the graphic."><input id="chk-annotations" type="checkbox" >Show <img src='sq_annotate.png' style="height:1em;" /> Annotations</label>
+              </div>
+              <div id="vennmode-container">
+                <div id='vennmodetoggle' class="btn-group" data-toggle="buttons">
+                  <label id="vennmode-label" style="float:left;"> &nbsp;&nbsp;&nbsp;Mode:</label>
+                    <label class="btn btn-default vennmode active" title="Show details about the students INCLUDED in the selection">
+                      <input type="radio" name="venn" id="intersection"  value="intersection" autocomplete="off"><img src="noun_736239_cc.png" style="height:1.25em;" /> 
+                    </label>
+                    <label class="btn btn-default vennmode" title="Show details about the students EXCLUDED from the selection">
+                      <input type="radio" name="venn" id="exclusion" value="exclusion" autocomplete="off"><img src="noun_736236_cc.png" style="height:1.25em;" />  
+                    </label>
+                </div>
+              </div>
+              <div id="about-container" title="Help and Info about this graphic.">
+                <span class="btn-group about-btn"> 
+                  <button type="button" class="btn btn-default" data-toggle="modal" href="#myModal">
+                    Info <img src="noun_365192_cc.png" style="height:1em;" /> 
+                  </button>
+                </span> 
+              </div>
+              <div id='filterbymajor-minor' >
+                    <label id='majorfilter'>Filter by Major: <input type="text" placeholder="ALL majors" /></label>
+                    <span class="or"></span>
+                    <label id='minorfilter'> Filter by Minor: <input type="text" placeholder="Any minor" /></label>
+                   <!--  <div id="instructions">
+                   </div> --> <!-- instructions  -->
+              </div>
+            </div> <!-- filter container -->
+        </div> <!-- navbar header -->
+ <!--    </div> --> <!-- container -->
+  </div><!-- navbar navbar-default navbar-fixed-top -->
+   <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">About this visualization tool</h4>
+            </div>
+            <div class="modal-body">
+              <h4 class="modal-title">Data</h4>
+              <p>This tool takes undergraduates who graduated in Spring 2016 (including summer 2016), and clusters those students based on the courses that they took at UC Berkeley. Student graduation and course data is from Cal Answers.</p>
+              <p>The clusters were generated using the python scikit-learn t-SNE implementation, 5000 steps seems to be the best number of iterations. Using perplexity of 30.</p>
+               <p></p>
+              <h4 class="modal-title">Notes</h4>
+              <p>There are roughly 3,800 freshmen-entry students and are roughly 1,600 transfer-entry students who graduated in Spring/Summer 2016. The exact counts vary because some students have only taken upper division courses or only taken lower division classes.</p>
+<!--               <p>It is important to note that this view is looking at an <b>exit cohort</b>, so students who didn't graduate are not included here; these students entered Berkeley at different times, not as part of the same entering cohort. </p> -->
+               <p></p>
+              <h4 class="modal-title">Usage Tips & Hints</h4>
+              <p>Switch between selecting an area (<img src="noun_126504_cc.png" style="height:1em;" /> cursor) & pan/zoom mode (<img src="noun_156747_cc.png" style="height:1em;" /> cursor) with a single-click in the white space between the circles. </p>
+              <p>The "Mode" allows for toggling between getting details on the students that you have included <img src="noun_736239_cc.png" style="height:1em;" /> in the major/minor filters and the students who are excluded <img src="noun_736236_cc.png" style="height:1em;" /> from those filters. </p>
+               <p></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+   <div id="vis"></div>
+   <!-- <div id="footer">t-sne parameters: perplexity = 30 | 5000 steps</div> -->
+   </body>  
+  <!-- <script type="application/javascript">
+  // loading 2d points as t-sne output
+  // start with clustering of lower division coursework
+    // global to hold the courses taken for the squares
+    var courses, points, studata, student_records, course_sids, majors, minors;
+    var div_value, color_value, entry_value, coursefocus_value;
+    var major_filters = ["ALL Majors"];
+    var minor_filters = ["Any Minor"];
+     queue()
+      .defer(d3.json, 'tsne_output_freshmen_spring2016_LDIV_SBJ_5000s_30p_python.json')
+      .defer(d3.json, 'tsne_output_freshmen_spring2016_UDIV_SBJ_5000s_30p_python.json')
+      .defer(d3.json, 'tsne_output_freshmen_spring2016_LDIV_CRSE_5000s_30p_binary.json')
+      .defer(d3.json, 'tsne_output_freshmen_spring2016_UDIV_CRSE_5000s_30p_binary.json')
+      .defer(d3.json, 'tsne_output_transfers_spring2016_LDIV_SBJ_5000s_30p_python.json')
+      .defer(d3.json, 'tsne_output_transfers_spring2016_UDIV_SBJ_5000s_30p_python.json')
+      .defer(d3.json, 'tsne_output_transfers_spring2016_LDIV_CRSE_5000s_30p_python.json')
+      .defer(d3.json, 'tsne_output_transfers_spring2016_UDIV_CRSE_5000s_30p_python.json')
+      .defer(d3.csv, 'ldiv_subjects_taken_by_freshmen_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'udiv_subjects_taken_by_freshmen_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'ldiv_courses_taken_by_freshmen_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'udiv_courses_taken_by_freshmen_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'ldiv_subjects_taken_by_transfers_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'udiv_subjects_taken_by_transfers_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'ldiv_courses_taken_by_transfers_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'udiv_courses_taken_by_transfers_ppsk(spring2016)_randomized.csv')
+      .defer(d3.csv, 'freshmen_graduating_ucb_spring2016_randomized.csv')
+      .defer(d3.csv, 'transfers_graduating_ucb_spring2016_randomized.csv')
+      .defer(d3.json, 'annotation_data.json')
+      .await(createPlot);
+     function createPlot(error, flspoints, fuspoints, flcpoints, fucpoints, tlspoints, tuspoints, tlcpoints, tucpoints, flscoursedata, fuscoursedata, flccoursedata, fuccoursedata, tlscoursedata, tuscoursedata, tlccoursedata, tuccoursedata, frstudata, trstudata, annotationdata) {
+          // courses = tlscoursedata;
+          // points = tlspoints;
+          var width = window.innerWidth-40;
+          var header_height = d3.select("div.navbar-header").property("clientHeight");
+          var height = window.innerHeight - header_height-16;
+          var brushed_circle_list = []; // will hold a list of which students' circles are selected via brush
+          var brushed_course_list = []; //the discrete list of courses taken by those students
+          var pctFormat = d3.format(".0%");
+          var numFormat = d3.format(".1f");
+          var nFormat = d3.format(",.0f");
+          var timeFormat = d3.timeFormat("%B%d%Y %I.%M%p");
+          var students = [];
+          var dots;
+          // ----------------------------------
+          // Choose the dataset based on the UI 
+          // ---------------------------------- 
+          function chooseDataset() {
+                  
+                  div_value = d3.selectAll('.btn.divisionfilter.active input').property('id');
+                  color_value = d3.selectAll('.btn.colorfilter.active input').property('id');
+                  entry_value = d3.selectAll('.btn.entryfilter.active input').property('id');
+                  coursefocus_value = d3.selectAll('.btn.coursefilter.active input').property('id');
+                  // div_value = document.querySelector("input[name=division]:checked").value;
+                  // color_value = document.querySelector("input[name=mode]:checked").value;
+                  // entry_value = document.querySelector("input[name=entry]:checked").value;
+                  // coursefocus_value = document.querySelector("input[name=coursefocus]:checked").value;
+                  // major_filters.push(d3.select("#majorfilter input").property("placeholder"));
+                  // major_filter = d3.select("select#major_filter").property("value");
+                  studata = [];
+                  courses = [];
+                  points = [];
+                  // flspoints, fuspoints, flcpoints, fucpoints, tlspoints, tuspoints, tlcpoints, tucpoints, flscoursedata, fuscoursedata, flccoursedata, fuccoursedata,tlscoursedata, tuscoursedata, tlccoursedata, tuccoursedata, frstudata, trstudata
+                  if(entry_value === "freshmen") {
+                    studata = frstudata; 
+                      if(div_value === "lower") {
+                          if(coursefocus_value === "subject") {
+                              courses = flscoursedata;
+                              points = flspoints;
+                            }
+                            else if(coursefocus_value === "course") {
+                              courses = flccoursedata;
+                              points = flcpoints;
+                            }
+                        }
+                        else if(div_value === "upper") {
+                            if(coursefocus_value === "subject") {                          
+                              courses = fuscoursedata;
+                              points = fuspoints;
+                            }
+                            else if(coursefocus_value === "course") {
+                              courses = fuccoursedata;
+                              points = fucpoints;
+                            }
+                        }
+                  }
+                  else if(entry_value === "transfer") {
+                    studata = trstudata; 
+                      if(div_value === "lower") {
+                          if(coursefocus_value === "subject") {
+                              courses = tlscoursedata;
+                              points = tlspoints;
+                            }
+                            else if(coursefocus_value === "course") {
+                              courses = tlccoursedata;
+                              points = tlcpoints;
+                            }
+                        }
+                        else if(div_value === "upper") {
+                            if(coursefocus_value === "subject") {
+                              courses = tuscoursedata;
+                              points = tuspoints;
+                            }
+                            else if(coursefocus_value === "course") {
+                              courses = tuccoursedata;
+                              points = tucpoints;
+                            }
+                        }
+                  }
+                  course_sids = d3.nest().key(function(d) {return d.sid;}).entries(courses).map(function(d) {return d.key;});    
+                  student_records = d3.nest().key(function(d) {return d.sid;}).entries(studata);
+                  students = [];
+                  // deal with double and triple majors
+                  student_records.forEach(function(stu,i) {
+                      // don't include students who don't have any courses output for them
+                      if(course_sids.indexOf(stu.key) >= 0) {
+                          students.push({
+                            "sid": stu.values[0].sid,
+                            "terms_completed_to_degree_count": stu.values[0].terms_completed_to_degree_count,
+                            "years_completed_to_degree_count": stu.values[0].years_completed_to_degree_count,
+                            "graduation_term_year": stu.values[0].graduation_term_year,
+                            "major_type_cd": stu.values[0].major_type_cd,
+                            "major_short_name": stu.values[0].major_short_name,
+                            "major_short_name2": stu.values[0].major_type_cd != 'S' && stu.values.length >= 2 ? stu.values[1].major_short_name : "",
+                            "major_short_name3": stu.values[0].major_type_cd === 'T'  && stu.values.length == 3 ? stu.values[2].major_short_name : "",
+                            "minor": stu.values[0].minor,
+                            "minor2": stu.values[0].minor2,
+                            "division_name": stu.values[0].division_name,
+                            "entry_status": stu.values[0].entry_status,
+                            "ethnicity": stu.values[0].ethnicity
+                            });
+                        }
+                  });
+                  // get a distinct list of majors so that you can filter by them later
+                  majors = d3.nest().key(function(d) {return d.major_short_name;}).entries(studata).map(function(d) {return d.key;});
+                  
+                  majors.unshift("ALL Majors");
+                  majors.sort();
+                  // get a distinct list of minors so that you can filter by them later
+                  minors = d3.nest().key(function(d) {return d.minor;}).entries(studata).map(function(d) {return d.key;});
+                  
+                  minors.unshift("Any Minor");
+                  minors.sort();
+              }  // function chooseDataset()
+          chooseDataset();  // choose the dataset based on the UI selections
+          updateHeader();
+              // ----------------------------------
+              // Define scales, colors
+              // ----------------------------------
+              var xExtent = d3.extent(points, function(p) {return p[0]});
+              var yExtent = d3.extent(points, function(p) {return p[1]});
+              console.log("extent", xExtent, yExtent)
+              var category20b_sq = ['#393b79',  '#3288bd', '#ad494a',  '#637939',  '#7b4173', "#003c30","#543005", '#6b6ecf',  '#ce6dbd',"#35978f","#bf812d",'#e7ba52','#d6616b','#b5cf6b',"ec7014"];
+              var category20b_sq_cols = ["#3288bd","#543005", '#6b6ecf',  '#ce6dbd',"#35978f","#bf812d",'#e7ba52','#d6616b','#b5cf6b',"ec7014"];
+              // '#393b79',  '#3288bd', '#ad494a',  '#637939',  '#7b4173', "#003c30"
+              var ttd_fresh_colors = ["#006837","#006837","#006837","#006837", "#1a9850", "#66bd63", "#66bd63", "#fee08b", "#f46d43", "#d73027", "#a50026", "#a50026", "#a50026"];
+              var ttd_trans_colors = ["#006837","#006837", "#1a9850", "#66bd63", "#fee08b", "#f46d43", "#d73027", "#a50026", "#a50026", "#a50026", "#a50026"];
+              var ttd_fresh = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7];
+              var ttd_trans = [0.5,1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5];
+              // var ttd_colors = ["#006837", "#1a9850", "#66bd63", "#fee08b", "#f46d43", "#d73027", "#a50026"];
+              // division colors
+              var divs_long = ["L&S Arts & Humanities Division",
+                          "L&S Administered Programs",
+                          "L&S Biological Sciences Div",
+                          "L&S Math & Phys Sciences Div",
+                          "L&S Social Sciences Division",
+                          "L&S Undergrad Studies Division",
+                          "Clg of Natural Resources",
+                          "Clg of Environmental Design",
+                          "Haas School of Business",
+                          "Clg of Chemistry",
+                          "Clg of Engineering"];
+              // college colors
+              var cols_long = ["Clg of Letters & Science",
+                          "Clg of Natural Resources",
+                          "Clg of Environmental Design",
+                          "Haas School of Business",
+                          "Clg of Chemistry",
+                          "Clg of Engineering"];
+              var divcolors = ["#ce6dbd","#f46d43", "#66a61e","#2b8cbe","#80cdc1","#e7ba52"];
+              var eths = ["White/Other","Asian/Pacific Islander","Underrepresented Minority","International"];
+              var ethcolors = ["#2b8cbe","#80cdc1","#e7ba52","#f46d43"];
+              // var majortypes = ["S","D","T","J","I"];
+              var majortypes = ["Single Major","Double Major","Triple Major","Joint Major","Individual"];
+              var majorcolors = ["#80cdc1","#fe9929","#ae017e","#2166ac","#1a9850"];
+              
+              var divcolor = d3.scaleOrdinal().range(category20b_sq).domain(divs_long);
+              var colcolor = d3.scaleOrdinal().range(category20b_sq_cols).domain(cols_long);
+              // var divcolor =  d3.scaleOrdinal(d3.schemeSet1);
+              var unicolor = d3.scaleOrdinal().domain([""]).range(["#fff"]);
+              // var ttd_helper = document.querySelector("input[name=entry]:checked").value;
+              var ttdcolor = d3.scaleOrdinal().range(ttd_fresh_colors).domain(ttd_fresh);
+              var majorcolor = d3.scaleOrdinal().range(majorcolors).domain(majortypes);
+              var ethcolor = d3.scaleOrdinal().range(ethcolors).domain(eths);
+              var coursescolor = d3.scaleSequential(d3.interpolateBlues);
+              var centerX = (xExtent[0] + xExtent[1]) / 2;
+              var centerY = (yExtent[0] + yExtent[1]) / 2;
+              var scale = Math.min(width, height) /
+                          Math.max(xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]);
+              scale *= .75; // Leave a little margin.
+              var zoom = d3.zoom()
+                    .scaleExtent([1 / 2, 4])
+                    .on("zoom", zoomed);
+              // ----------------------------------
+              // put things on the screen
+              // ----------------------------------
+              var svg = d3.select("#vis").append("svg")
+                .attr("width", width)
+                .attr("height", height+1050)
+                .attr("transform", "translate(0," + header_height + ")");
+              // ----------------------------------
+              // add the brush for student selection
+              // ----------------------------------
+              svg.append("g")
+                .attr("class","brush")
+                .call(d3.brush().extent([[0, 0], [width, height]])
+                .on("brush", brushed)
+                .on("end", brushended));
+               var tip = d3.tip()
+                  .attr('class', 'd3-tip')
+                  .html(function(d,i) {
+                    return students[i].sid + 
+                    (students[i].major_type_cd === 'S' ? "" : (students[i].major_type_cd === 'D' ? "<br>Double Major" : (students[i].major_type_cd === 'T' ? "<br>Triple Major" : (students[i].major_type_cd === 'J' ? "<br>Joint Major" : "")))) + 
+                    ' <br><emph>major:</emph> ' + students[i].major_short_name + 
+                    (students[i].major_short_name2.length > 0 ? ' <br><emph>2nd major:</emph> ' + students[i].major_short_name2 : "") +
+                    (students[i].major_short_name3.length > 0 ? ' <br><emph>3rd major:</emph> ' + students[i].major_short_name3 : "") +
+                    (students[i].minor.length > 0 ? ' <br><emph>minor:</emph> ' + students[i].minor : "") +
+                    (students[i].minor2.length > 0 ? ' <br><emph>2nd minor:</emph> ' + students[i].minor2 : "") +
+                    ' <br><emph>time-to-degree:</emph> ' + students[i].years_completed_to_degree_count + ' years' + 
+                    ' <br><emph>division:</emph> ' + students[i].division_name + 
+                    ' <br><emph>ethnicity:</emph> ' + students[i].ethnicity;
+                    })
+                  .direction('ne')
+                  .offset([0, 3]);
+            
+              // ----------------------------------
+              // add the circles for students
+              // ----------------------------------
+              dots = svg.append("g").attr("class","dots").call(tip);
+              dots.selectAll("circle")
+                .data(points)
+              .enter()
+                .append("circle")
+                .classed("student", true)
+                .attr("cx",function(p) {
+                  x = (p[0] - centerX) * scale + width / 2;
+                  return x + "px"
+                })
+                .attr("cy",function(p) {
+                  y = -(p[1] - centerY) * scale + height / 2;
+                  return y + "px"
+                })
+                .attr("r", 7.5)
+                .style("position", "absolute")
+                .attr("fill", "#525252") 
+                .attr("fill-opacity", 0.65)
+                .attr("stroke", "#ddd")
+                .style("stroke-width", 0.5)
+                .attr("title",function(d,i) {return students[i].sid;})
+                .on("mouseover", function(d,i) {
+                  d3.select(this).style("stroke", "yellow").style("stroke-width",1);
+                  tip.show(d,i);
+                })
+                .on("mouseout", function(d,i) {
+                  d3.select(this).style("stroke", "#ddd").style("stroke-width",0.5);
+                  tip.hide(d,i);
+                });
+              // ----------------------------------
+              // add the zoom rect
+              // ---------------------------------- 
+              svg.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("id", "zoom")
+                .style("fill", "none")
+                .style("pointer-events", "all")
+                .call(zoom);
+                svg.on("click", () => {
+                  // var myEvent = d3.event;
+                  var toggle = d3.select("rect#zoom").style("pointer-events");
+                  d3.select("rect#zoom").style("pointer-events", toggle === "none" ? "all" : "none");
+                });
+          
+    
+                // ----------------------------------
+                // add the summary of matrix counts
+                // ---------------------------------- 
+                var svg_matrix_counts = svg.append("g")
+                    .attr("class", "matrix-counts")
+                    .attr("transform","translate(60,300)");
+                // var xc_scale = d3.scaleOrdinal().range([0,50]);
+                var yc_scale = d3.scaleBand();
+                // var xcAxis = d3.axisTop(xc_scale);
+                var ycAxis = d3.axisRight(yc_scale);
+                // var gXc = svg_matrix.append("g")
+                //     .attr("class", "axis axis--xc");
+                    
+                var gYc = svg_matrix_counts.append("g")
+                    .attr("class", "axis axis--yc")
+                    .attr("transform","translate(23,0)");  
+                svg_matrix_counts.append("text")
+                  .attr("id","minimatrix-title")
+                  .attr("x", -50)
+                  .attr("y",-26); 
+                
+                svg_matrix_counts.append("text")
+                  .attr("id","num-brushed")
+                  .attr("x", 0)
+                  .attr("y",-10);     
+                // ----------------------------------
+                // Add the list of majors
+                // Try using typeahead instead of select
+                // ---------------------------------- 
+                // constructs the suggestion engine
+                var major_typeahead = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: majors
+                      });
+                  major_typeahead.initialize();
+                   $('#majorfilter input').tagsinput({
+                      typeaheadjs:
+                      {
+                        source: major_typeahead
+                      },
+                      freeInput: false
+                    });
+                   $('#majorfilter input').on('itemAdded', function(event) {
+                    // event.item: contains the item
+                      major_filters.push(event.item);
+                      // applyMajorMinorFilters();
+                      var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                      var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                      // make everything grey
+                      svg.selectAll("circle.student")
+                          .attr("fill-opacity", (no_majorfilter && no_minorfilter) ? 0.65 : 0)
+                          .style("pointer-events", (no_majorfilter && no_minorfilter) ? "all" : "none");
+                      // only highlight the selected major
+                     svg.selectAll("circle.student").filter(function(d,i) {
+                           
+                          return (no_majorfilter && no_minorfilter) ? d : 
+                            ( 
+                            // only show the students with a filter major or minor
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0  ||
+                              // : (
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0
+                            );
+                          })
+                          .transition().duration(1500)
+                          .attr("fill-opacity", 0.65)
+                          .style("pointer-events", "all");
+                      d3.selectAll("#majorfilter input.tt-input").attr("placeholder", (major_filters.length == 1 && major_filters.indexOf("ALL Majors") >= 0 ? "ALL Majors" : ""));
+                      if(d3.select(".brush").property("__brush").selection) {brushed()}
+                      // var t = d3.timer(function(elapsed) {
+                      //     if(d3.select(".brush").property("__brush").selection) {brushed();}
+                      //     t.stop();
+                      // }, 1500);
+                       
+                      
+                    });
+                   $('#majorfilter input').on('itemRemoved', function(event) {
+                      // event.item: contains the item
+                      major_filters.splice(major_filters.indexOf(event.item),1);
+                      // applyMajorMinorFilters();
+                      var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                      var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                      // make everything grey
+                      svg.selectAll("circle.student")
+                          .attr("fill-opacity", (no_majorfilter && no_minorfilter) ? 0.65 : 0)
+                          .style("pointer-events", (no_majorfilter && no_minorfilter) ? "all" : "none");
+                      // only highlight the selected major
+                      svg.selectAll("circle.student").filter(function(d,i) {
+                          return (no_majorfilter && no_minorfilter) ? d : 
+                            ( 
+                            // only show the students with a filter major or minor
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0  ||
+                              // : (
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0
+                            );
+                          })
+                          .style("pointer-events", "all")
+                          .transition().duration(1500)
+                          .attr("fill-opacity", 0.65);
+                      d3.selectAll("#majorfilter input.tt-input").attr("placeholder", (major_filters.length == 1 && major_filters.indexOf("ALL Majors") >= 0 ? "ALL Majors" : ""));
+                      if(d3.select(".brush").property("__brush").selection) {brushed();}
+                    });
+                  // hack to fix the vertical aligment of the suggestions engine span element
+                  d3.select("#majorfilter span.twitter-typeahead").style("display", "inline-flex");
+                // ----------------------------------
+                // Add the list of minors
+                // Try using typeahead instead of select
+                // ---------------------------------- 
+                // constructs the suggestion engine
+                var minor_typeahead = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: minors
+                      });
+                  minor_typeahead.initialize();
+                   $('#minorfilter input').tagsinput({
+                      typeaheadjs:
+                      {
+                        source: minor_typeahead
+                      },
+                      freeInput: false
+                    });
+                   $('#minorfilter input').on('itemAdded', function(event) {
+                    // event.item: contains the item
+                      minor_filters.push(event.item);
+                      // applyMajorMinorFilters();
+                      var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                      var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                        // make everything grey
+                      svg.selectAll("circle.student")
+                          // .transition()
+                          .attr("fill-opacity", (minor_filters.length == 1 && minor_filters.indexOf("Any Minor") >= 0) ? 0.65 : 0)
+                          .style("pointer-events", (no_majorfilter && no_minorfilter) ? "all" : "none");
+                      
+                      // only highlight the selected minor
+                      svg.selectAll("circle.student").filter(function(d,i) {                          
+                          return (no_majorfilter && no_minorfilter) ? d : 
+                            ( 
+                            // only show the students with a filter major or minor
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0  ||
+                              // : (
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0
+                            );
+                          })
+                          .style("pointer-events", "all")
+                          .transition().duration(1500)
+                          .attr("fill-opacity", 0.65);
+                      // remove the placeholder if there is a minor filter
+                      d3.selectAll("#minorfilter input.tt-input").attr("placeholder", (minor_filters.length == 1 && minor_filters.indexOf("Any Minor") >= 0 ? "Any Minor" : ""));
+                      if(d3.select(".brush").property("__brush").selection) {brushed();}
+                    });
+                   $('#minorfilter input').on('itemRemoved', function(event) {
+                      // event.item: contains the item
+                      minor_filters.splice(minor_filters.indexOf(event.item),1);
+                      var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                      var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                      // make everything grey
+                      svg.selectAll("circle.student")
+                          // .transition()
+                          .attr("fill-opacity", (no_majorfilter && no_minorfilter) ? 0.65 : 0)
+                          .style("pointer-events", (no_majorfilter && no_minorfilter) ? "all" : "none");
+                      // only highlight the selected minor
+                      svg.selectAll("circle.student").filter(function(d,i) {
+                           
+                          return (no_majorfilter && no_minorfilter) ? d : 
+                            ( 
+                            // only show the students with a filter major or minor
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0  ||
+                              // : (
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0
+                            );
+                          })
+                          .style("pointer-events", "all")
+                          .transition().duration(1500)
+                          .attr("fill-opacity", 0.65);
+                      // remove the placeholder if there is a minor filter
+                      d3.selectAll("#minorfilter input.tt-input").attr("placeholder", (minor_filters.length == 1 && minor_filters.indexOf("Any Minor") >= 0 ? "Any Minor" : ""));
+                      if(d3.select(".brush").property("__brush").selection) {brushed();}
+                    });
+                // function applyMajorMinorFilters() {
+                //   // make everything grey
+                //       svg.selectAll("circle.student")
+                //           .transition()
+                //           .attr("fill-opacity", (minor_filters.length == 1 && minor_filters.indexOf("Any Minor") >= 0) ? 0.65 : 0)
+                //           .style("pointer-events", (no_majorfilter && no_minorfilter) ? "all" : "none");
+                //       var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                //       var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                //       // only highlight the selected minor
+                //       svg.selectAll("circle.student").filter(function(d,i) {                          
+                //           return (no_majorfilter && no_minorfilter) ? d : 
+                //             ( 
+                //             // only show the students with a filter major or minor
+                //                 major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                //                 major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                //                 major_filters.indexOf(students[i].major_short_name3) >= 0  ||
+                //               // : (
+                //                 minor_filters.indexOf(students[i].minor) >= 0 || 
+                //                 minor_filters.indexOf(students[i].minor2) >= 0
+                //             );
+                //           })
+                //           .style("pointer-events", "all")
+                //           .transition().duration(1500)
+                //           .attr("fill-opacity", 0.65);
+                // }
+                  // hack to fix the vertical aligment of the suggestions engine span element
+                  d3.select("#minorfilter span.twitter-typeahead").style("display", "inline-flex");
+                // ----------------------------------
+                // add the color filter legend
+                // ---------------------------------- 
+                 var legend_svg = d3.select("svg");
+                legend_svg.append("g")
+                  .attr("class", "legendOrdinal")
+                  .attr("transform", "translate(20,40)");
+                 
+                 var legendOrdinal = d3.legendColor()
+                      .shape("circle")
+                      .shapeRadius(7.5)
+                      .orient("vertical")
+                      .scale(unicolor);
+                  legend_svg.select(".legendOrdinal").call(legendOrdinal);
+                // ----------------------------------
+                // add some annotations
+                // ----------------------------------
+                // NOTE: commenting this out because it doesn't work with anonymized/randomized data
+                // createAnnotations();
+                function showAnnotations() {
+                  var checked = d3.select("input#chk-annotations").property("checked");
+                  if(checked) {
+                    d3.selectAll("g.annotation-encircle").transition().style("display","inherit");
+                  }
+                  else {
+                    d3.selectAll("g.annotation-encircle").transition().style("display","none");
+                  }
+                }
+                function createAnnotations() {
+                  
+                  var ann_this;
+                  var checked = d3.select("input#chk-annotations").property("checked");
+                  // six different sets of annotations
+                  // freshmen/transfer  upper/lower  courses/subjects
+                    div_value = d3.selectAll('.btn.divisionfilter.active input').property('id');
+                    entry_value = d3.selectAll('.btn.entryfilter.active input').property('id');
+                    coursefocus_value = d3.selectAll('.btn.coursefilter.active input').property('id');
+                    ann_this = annotationdata.filter(function(d) { return d.entry_value === entry_value && 
+                                                       d.div_value === div_value && 
+                                                       d.coursefocus_value === coursefocus_value;
+                                                     });
+                   // for each annotation to be added, get the points, compute the circle, generate the input
+                   // set a breakpoint here and figure out what the code should be to generate ann_nodes
+                   ann_this[0].note.forEach(function(note) {
+                      note.ann_nodes = note.ann_sids.map(function(p,j) {
+                        return points.filter(function (d,i) {
+                          return p.indexOf(students[i].sid) >= 0;
+                        }).map(function (d) {
+                          return { x: (d[0] - centerX) * scale + width / 2, 
+                                   y: -(d[1] - centerY) * scale + height / 2, 
+                                   r: 5 }
+                      }); });
+                   });
+                  ann_this[0].note.forEach(function(note) {
+                      var nodes = note.ann_nodes.map(function(p) { return p[0];}); 
+                      note.circle = d3.packEnclose(nodes);
+                  });
+                  var annotations = [];
+                  ann_this[0].note.forEach(function(note,i) {
+                      annotations.push(
+                      {
+                        note: {
+                          label: note.label,
+                          title: note.title,
+                          wrap: 190
+                          },
+                        dy: note.circle.y > (height / 2) ? note.circle.r + 13 : -note.circle.r -13,
+                        dx: note.circle.x > (width / 2) ? note.circle.r  + 16 : -note.circle.r -16,
+                        x: note.circle.x,
+                        y: note.circle.y,
+                        type: d3.annotationCalloutCircle,
+                        subject: {
+                          radius: note.circle.r + 20,
+                          radiusPadding: 4
+                        }
+                      });
+                  });
+                  window.makeAnnotations = d3.annotation().annotations(annotations).accessors({ x: function x(d) {
+                      return d.x;
+                    }, y: function y(d) {
+                      return d.y;
+                    } });
+                  svg.append("g").attr("class", "annotation-encircle").style("display", checked ? "inherit" : "none").call(makeAnnotations);
+              }
+              // ----------------------------------
+              // add the zoom functionality
+              // ---------------------------------- 
+              function zoomed() {
+                dots.attr("transform", d3.event.transform);
+                d3.selectAll("g.brush").attr("transform", d3.event.transform);
+                d3.selectAll("g.annotation-encircle").attr("transform", d3.event.transform);
+              }
+            // ----------------------------------
+            // add the brush functionality
+            // ---------------------------------- 
+            function brushed() {
+                 var s = d3.select(".brush").property("__brush").selection || d3.event.selection,
+                     x0 = s[0][0],
+                     y0 = s[0][1],
+                     dx = s[1][0] - x0,
+                     dy = s[1][1] - y0;
+                 // console.log(s);
+                // parent of all circles is the g element, where there might be a transform
+                var qq = svg.select('g.dots').attr("transform") || "";
+                var x_trans = 0, 
+                    y_trans = 0,
+                    scale = 1;
+                // consider transforms from dragging and scales from zooming when checking brushed points
+                      // if(qq.length > 0) {
+                      //     x_trans = +qq.substring(qq.indexOf("(")+1,qq.indexOf(",")),
+                      //     y_trans = +qq.substring(qq.indexOf(",")+1,qq.indexOf(")")),
+                      //     scale = +qq.substring(qq.indexOf("scale(")+6,qq.length-1)
+                      //   }
+                    // console.log("scale ", scale);
+                // select the circles based on the Mode: Intersection or Exclusion
+                // Intersection = work with only the brushed circles AND the selected circles if there is a filter
+                // Exclusion = work with only the brushed circles AND the non-selected circles if there is a filter
+                
+                // What is the mode
+                var venn_mode = d3.selectAll('.btn.vennmode.active input').property('id');
+                var brush_circles = svg.selectAll('circle.student').filter(function(d) {
+                      var stu = this.attributes["title"].value;
+                      var cx = this.cx.baseVal.value + (x_trans / scale),
+                          cy = this.cy.baseVal.value + (y_trans / scale);
+                      var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                      var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                        return cx >= x0/scale && cx <= (x0 + dx)/scale && cy >= y0/scale && cy <= (y0 + dy)/scale
+                                && ((no_minorfilter && no_majorfilter) ? d : venn_mode === "intersection" ? ((d3.select(this).style('pointer-events') === "all") ? d : null) : (d3.select(this).style('pointer-events') === "none") ? d : null );
+                      })._groups[0]
+                      .map(function(d) {
+                        return d.attributes["title"].value;
+                        });
+                // console.log('brush_circles ',brush_circles);
+                var mini_matrix = [];
+                if(brush_circles.length > 0) {
+                        // get the course list
+                        coursefocus_value = d3.selectAll('.btn.coursefilter.active input').property('id');;
+                        var course_students = courses.filter(function(d) {return brush_circles.indexOf(d.sid) >= 0;});
+                        var course_list = d3.set(course_students.map(function(d) {return coursefocus_value === "course" ? d.course : d.subject;})).values();
+                        var coursetitles = course_students.map(function(d) {
+                          return {"course": d.course,
+                                  "coursetitle": d.coursetitle};
+                                });
+                        // get the student info for export
+                        // var info_students = student_records.filter(function(d) {return  brush_circles.indexOf(d.key) >= 0;}).map(function(d) {return d.values[0];});
+                        // svg.selectAll("g.download").data(course_students);
+                        localStorage.setItem('exportcourses', JSON.stringify(course_students));
+                        // localStorage.setItem('exportstudents', JSON.stringify(info_students));
+ 
+                        // mini_matrix.push(course_list.unshift(''));
+                        
+                        // take each student and make a little matrix using the courselist
+                        // the subject level visualization calculates the data behind the mini-matirx slightly differently
+                        // in CONTRAST with the subject level visualization, which counts ---how many times---
+                        // this counts how many times each student in the brushed selection took a course from the course list
+                        brush_circles.forEach(function(sid,i) {
+                            mini_matrix.push([sid]);
+                            var stcourses = course_students.filter(function(d) {return d.sid === sid;}).map(function(d) {return coursefocus_value === "course" ? d.course : d.subject;});
+                            course_list.forEach(function(crse, j) {
+                                if(coursefocus_value === "course") {
+                                    mini_matrix[i].push(stcourses.indexOf(crse) >= 0 ? 1: 0);
+                                  }
+                                else if(coursefocus_value === "subject") {
+                                      var count = 0;
+                                      stcourses.forEach(function(d) {
+                                        if(d.indexOf(crse) >= 0) {
+                                          count += 1;
+                                        }
+                                      });
+                                    mini_matrix[i].push(count);
+                                  }
+                              });
+                          });
+                        // count how many times each student in the brushed selection took a course from the course list
+                          var matrix_sum = mini_matrix.reduce(function(a, b){
+                                                return a.map(function(v,i){
+                                                    return v+b[i];
+                                                });
+                                            });
+                          
+                          matrix_sum.shift();
+                          var matrix_sum_obj = matrix_sum.map(function(d,i) {
+                                      return {
+                                                      "course": course_list[i],
+                                                      "coursetitle": d3.set(coursetitles.filter(function(d) {return d.course === course_list[i];}).map(function(d) {return d.coursetitle;})).values(),
+                                                      "sum": d
+                                                    }
+                              });
+                          matrix_sum_obj.sort(function(a,b) {
+                                    if(a.sum === b.sum)
+                                    {
+                                        var x = a.course.toLowerCase(), y = b.course.toLowerCase();
+                                        
+                                        return x < y ? -1 : x > y ? 1 : 0;
+                                    }
+                                return b.sum - a.sum;
+                          });
+                    }  // brush_circles.length > 0
+                    else if(brush_circles.length == 0) {
+                          matrix_sum_obj = [];
+                    }
+                      // ----------------------------------
+                      // update the mini matrix counts
+                      // ---------------------------------- 
+                      // only include relevant courses in the y-axis domain.
+                      // filter out non-overlapping courses
+                      var stus = brush_circles.length;
+                      var course_pool = matrix_sum_obj.filter(function(d) {return stus > 1 ? d.sum > 1 : d;}).map(function(d) {return d.course;});
+                      yc_scale.domain(course_pool).range([0,(course_pool.length * 20)]).paddingInner(0.05);
+                      // if looking at subjects, use the Y-axis tick values; otherwise, build coursetitles
+                      ycAxis.tickValues(coursefocus_value === "course" ? [] : yc_scale.domain());
+                      // gX.call(xAxis);
+                      gYc.call(ycAxis);
+                      svg_matrix_counts.select("#minimatrix-title")
+                        .text(stus >= 1 ? ( coursefocus_value === "course" ? "COURSES AND THE % OF STUDENTS WITHIN THE SELECTED REGION WHO TOOK THEM" : "AVERAGE # OF COURSE SUBJECTS TAKEN BY STUDENTS WITHIN THE SELECTED REGION") : "");
+                        // .text(stus >= 1 ? "Avg # of lower division courses taken" : "");
+                      svg_matrix_counts.select("#num-brushed")
+                        .text(stus > 1 ? "N = " + stus + " students" : (stus == 1 ? "N = " + stus + " student" : ""));
+                      var max_sum = d3.max(matrix_sum_obj,function(d) {return d.sum;});
+                      var normalize = d3.scaleLinear().domain([0, (max_sum/stus)]).range([0, 1]);
+                      var col = svg_matrix_counts.selectAll(".col")
+                          .data(matrix_sum_obj.filter(function(d) {return stus > 1 ? d.sum > 1 : d;}));
+                      col.enter().append("rect")
+                        .attr("class","col")
+                        .merge(col)
+                        .attr("x", 0)
+                            // .attr("y",0)
+                            .attr("y", function(d) { 
+                              return yc_scale(d.course); 
+                            })
+                            .attr("width", 20)
+                            .attr("height", yc_scale.bandwidth())
+                            .attr("fill", function(d) {
+                                    return  coursescolor(normalize(d.sum/stus));
+                                  })
+                            .attr("fill-opacity",0.85)
+                            .attr("title", function(d) {
+                              return d.course;
+                            });
+                       var sumlabels = svg_matrix_counts.selectAll(".sum-label")
+                            .data(matrix_sum_obj.filter(function(d) {return stus > 1 ? d.sum > 1 : d; }));
+                        sumlabels.exit().remove();
+                        sumlabels.enter()
+                          .append("text")
+                            .attr("class","sum-label")
+                          .merge(sumlabels)
+                            .attr("x",0)
+                            .attr("y",0)
+                            .attr("transform",function(d) { 
+                              return stus >= 1 ? "translate(-10," + (yc_scale(d.course) + (yc_scale.bandwidth()/1.5)) +")" : "translate(0,0)";})
+                            .style("text-anchor", "end")
+                            .text(function(d){
+                              return stus >= 1 ? (coursefocus_value === "course" ? pctFormat(d.sum/stus) : numFormat(d.sum/stus)) : "";
+                            });
+                        var coursetitles = svg_matrix_counts.selectAll(".course-title")
+                            .data(matrix_sum_obj.filter(function(d) {return stus > 1 ? d.sum > 1 : d; }));
+                        coursetitles.exit().remove();
+                        coursetitles.enter()
+                          .append("text")
+                            .attr("class","course-title")
+                          .merge(coursetitles)
+                            .attr("x",0)
+                            .attr("y",0)
+                            .attr("transform",function(d) { 
+                              return stus >= 1 ? "translate(26," + (yc_scale(d.course) + (yc_scale.bandwidth()/1.25)) +")" : "translate(0,0)";})
+                            .style("text-anchor", "start")
+                            .text(function(d){
+                              return stus >= 1 ? (coursefocus_value === "course" ? d.course + " : " + d.coursetitle : "") : "";
+                            });
+                      col.exit().remove();    
+                    // display the export button
+                    d3.select("button#export").transition().duration(1000).style("opacity","1");                  
+                 
+             } // brushed
+             function brushended() {
+                 if (!d3.event.selection) {
+                    // remove the mini-matrix
+                    svg_matrix_counts.selectAll(".col").remove();
+                    svg_matrix_counts.selectAll(".sum-label").remove();
+                    svg_matrix_counts.select("#minimatrix-title").text("");
+                    svg_matrix_counts.selectAll(".course-title").remove();
+                    svg_matrix_counts.select("#num-brushed").text("");
+                    svg_matrix_counts.selectAll("g.axis g.tick text ").remove();
+                    yc_scale.domain([]).range([]);
+                    // gYc.call(ycAxis);
+                    // hide the export button
+                    d3.select("button#export").transition().duration(1000).style("opacity","0");
+                    // empty the storage
+                    localStorage.setItem('exportcourses','');
+                    localStorage.setItem('exportstudents','');
+                    
+                 }
+             }
+             function updateHeader() {
+              d3.select("#header").html("Students (<emph>" + entry_value + "</emph> entrants ) who graduated in Spring 2016, grouped by the <emph>" + div_value + " division " + coursefocus_value + "s</emph> that they took <span class='nnn'>(N = " + nFormat(students.length) + ")</span>");
+             }
+              d3.selectAll(".btn.colorfilter").on("click",function(){
+                  // http://stackoverflow.com/questions/9262827/twitter-bootstrap-onclick-event-on-buttons-radio 
+                   $(this).addClass('active').siblings().removeClass('active');
+                  updateColorFilter();
+                });
+                // }); //d3.selectAll("input.divisionfilter").on("change"
+              function updateColorFilter() {
+                  color_value = d3.selectAll('.btn.colorfilter.active input').property('id');
+                  // color_value = document.querySelector("input[name=mode]:checked").value;
+                  // entry_value = document.querySelector("input[name=entry]:checked").value;
+                  entry_value = d3.selectAll('.btn.entryfilter.active input').property('id');
+                  // chooseDataset();
+                  var colorscale = [];
+                  ttdcolor.domain(entry_value === "freshmen" ? ttd_fresh : ttd_trans)
+                      .range(entry_value === "freshmen" ? ttd_fresh_colors : ttd_trans_colors);
+                     // get rid of the old legend
+                    d3.selectAll(".legendOrdinal").remove();
+                    d3.select("svg").append("g")
+                      .attr("class", "legendOrdinal")
+                      .attr("transform", "translate(20,30)");
+                      // create a new legend & set the legend colorscale
+                    if(color_value === 'same') {
+                      colorscale = unicolor;
+                    }
+                    else if(color_value === 'ttd') {
+                      colorscale = ttdcolor; 
+                    }
+                    else if(color_value === 'div') {
+                      colorscale = divcolor;
+                    }
+                    else if(color_value === 'college') {
+                      colorscale = colcolor;
+                    }
+                    else if(color_value === 'ethnicity') {
+                      colorscale = ethcolor;
+                    }
+                    else if(color_value === 'majortype') {
+                      colorscale = majorcolor;
+                    }
+                      legendOrdinal.scale(colorscale);   
+  
+                      d3.select(".legendOrdinal").call(legendOrdinal);
+                    d3.selectAll("circle.student")
+                      .transition().duration(1000)
+                      .attr("fill", function(d,i) {
+                          // return divcolor(students[i].division_name);
+                          if(color_value === 'same') {
+                            return "#525252";
+                          }
+                          else if(color_value === 'ttd') {
+                            var qq = +students[i].years_completed_to_degree_count;
+                            return qq > 0 ? ttdcolor(qq) : "#ddd";
+                          }
+                          else if(color_value === 'college') {
+                            return colcolor(students[i].division_name.substring(0,3) === 'L&S' ? "Clg of Letters & Science" : students[i].division_name);
+                          }
+                          else if(color_value === 'div') {
+                            return divcolor(students[i].division_name);
+                          }
+                          else if(color_value === 'ethnicity') {
+                            return ethcolor(students[i].ethnicity);
+                          }
+                          else if(color_value === 'majortype') {
+                             if(students[i].major_type_cd === "S") {return majorcolor("Single Major");}
+                             else if(students[i].major_type_cd === "D") {return majorcolor("Double Major");}
+                             else if(students[i].major_type_cd === "T") {return majorcolor("Triple Major");}
+                             else if(students[i].major_type_cd === "J") {return majorcolor("Joint Major");}
+                             else if(students[i].major_type_cd === "I") {return majorcolor("Individual");}
+                          }
+                        }) 
+                        .attr("fill-opacity", function(d,i) {
+                           // var major_filter = d3.select("select#major_filter").property("value");
+                           var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                           var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                              return (no_majorfilter && no_minorfilter) ? 0.65 : 
+                            ( 
+                                // there is a major or a minor filter, only show those students
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0 ||
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0 ? 0.65 : 0
+                            );
+                          });
+                }  // updateColorFilter()
+              d3.select("button#resize")
+                  .on("click", resetted);
+              function resetted() {
+               
+                    // d3.select('g.dots')
+                    //   .transition().duration(2500).ease(d3.easeExpInOut)
+                    //   .attr("transform","translate(0,0) scale(1)");
+                   d3.selectAll("rect#zoom").transition()
+                      .duration(750)
+                      .call(zoom.transform, d3.zoomIdentity
+                          .scale(1)
+                          .translate(0, 0));
+                      // .call(d3.zoom()
+                      // .scaleExtent([1 / 2, 4]));
+              }
+              d3.select("button#export")
+                .on("click", function() {
+                  var text_courses = localStorage.getItem('exportcourses');
+                  var text_students = localStorage.getItem('exportstudents');
+                  var nStudents = d3.select("#num-brushed").text();
+                  // var entry_value = d3.selectAll('.btn.entryfilter.active input').property('id');
+                  // var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                  // var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                  var filename_courses = "course export " + nStudents.slice(4) + " " + timeFormat(new Date) + ".csv";
+                  var filename_students = "student export " + nStudents.slice(4) + " " + timeFormat(new Date) + ".csv";
+                  
+                  if(text_courses.length > 0) {
+                    download(filename_courses, Papa.unparse(text_courses));
+                  }
+                  if(text_students.length > 0) {
+                    download(filename_students, Papa.unparse(text_students));
+                  }
+                });
+              // function logToConsole() {
+              //   //export the selection to the console
+              //     var exp = localStorage.getItem('exportcourses');
+              //     return Papa.unparse(exp);
+              //     // console.log(Date())
+              //     // console.log("export: ", Papa.unparse(exp) );
+              // }
+              function download(filename, text) {
+                  var element = document.createElement('a');
+                  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                  element.setAttribute('download', filename);
+                  element.style.display = 'none';
+                  document.body.appendChild(element);
+                  element.click();
+                  document.body.removeChild(element);
+              }
+              function updatePlot() {
+                  xExtent = d3.extent(points, function(p) {return p[0]});
+                  yExtent = d3.extent(points, function(p) {return p[1]});
+                  scale = Math.min(width, height) /
+                          Math.max(xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]);
+                  scale *= 0.75; // Leave a little margin.
+                  // var circles = svg.selectAll("circle.student").data(points);
+                  var circles = d3.select("g.dots").selectAll("circle.student").data(points, function(d) { return d; });
+                  circles.exit().remove();
+                  circles
+                      .enter().append("circle")
+                        .on("mouseover", function(d,i) {
+                            d3.select(this).style("stroke", "yellow").style("stroke-width",1);
+                            tip.show(d,i);
+                          })
+                        .on("mouseout", function(d,i) {
+                            d3.select(this).style("stroke", "#ddd").style("stroke-width",0.5);
+                            tip.hide(d,i);
+                          })
+                        // .attr("fill-opacity", 0.65)
+                        .attr("r", 7.5)
+                        .style("position", "absolute")
+                        .classed("student", true)
+                        .style("stroke-width", 0.5)
+                      .merge(circles)
+                        .transition().duration(3500)
+                        .attr("cx",function(p) {
+                          x = (p[0] - centerX) * scale + width / 2;
+                          return x + "px"
+                        })
+                        .attr("cy",function(p) {
+                          y = -(p[1] - centerY) * scale + height / 2;
+                          return y + "px"
+                        })
+                        .attr("fill", function(d,i) {
+                          // return divcolor(students[i].division_name);
+                          if(color_value === 'same') {
+                            return "#525252";
+                          }
+                          else if(color_value === 'ttd') {
+                            var qq = +students[i].years_completed_to_degree_count;
+                            return qq > 0 ? ttdcolor(qq) : "#ddd";
+                          }
+                          else if(color_value === 'college') {
+                            return colcolor(students[i].division_name.substring(0,3) === 'L&S' ? "Clg of Letters & Science" : students[i].division_name);
+                          }
+                          else if(color_value === 'div') {
+                            return divcolor(students[i].division_name);
+                          }
+                          else if(color_value === 'ethnicity') {
+                            return ethcolor(students[i].ethnicity);
+                          }
+                          else if(color_value === 'majortype') {
+                             if(students[i].major_type_cd === "S") {return majorcolor("Single Major");}
+                             else if(students[i].major_type_cd === "D") {return majorcolor("Double Major");}
+                             else if(students[i].major_type_cd === "T") {return majorcolor("Triple Major");}
+                             else if(students[i].major_type_cd === "J") {return majorcolor("Joint Major");}
+                             else if(students[i].major_type_cd === "I") {return majorcolor("Individual");}
+                          }
+                        }) 
+                        .attr("fill-opacity", function(d,i) {
+                           // var major_filter = d3.select("select#major_filter").property("value");
+                          // return major_filters.length == 1 && major_filters.indexOf("ALL Majors") >= 0 ? 0.65 : (major_filters.indexOf(students[i].major_short_name) >= 0 || major_filters.indexOf(students[i].major_short_name2) >= 0 || major_filters.indexOf(students[i].major_short_name3) >= 0 ? 0.65 :0);
+                          // })
+                           var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                           var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                              return (no_majorfilter && no_minorfilter) ? 0.65 : 
+                            ( 
+                                // there is a major or a minor filter, only show those students
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0 ||
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0 ? 0.65 : 0
+                            );
+                          })
+                        .attr("stroke", "#ddd")
+                        .attr("title",function(d,i) {return students[i].sid;})
+                        // .style("pointer-events", "all");
+                        .style("pointer-events", function(d,i) {
+                            var no_majorfilter = (major_filters.length == 1 && major_filters[0] === "ALL Majors");
+                            var no_minorfilter = (minor_filters.length == 1 && minor_filters[0] === "Any Minor");
+                              return (no_majorfilter && no_minorfilter) ? "all" : 
+                            ( 
+                                // there is a major or a minor filter, only show those students
+                                major_filters.indexOf(students[i].major_short_name) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name2) >= 0 || 
+                                major_filters.indexOf(students[i].major_short_name3) >= 0 ||
+                                minor_filters.indexOf(students[i].minor) >= 0 || 
+                                minor_filters.indexOf(students[i].minor2) >= 0 ? "all" : "none"
+                            );
+                          });
+                    brushended();
+                    d3.select("rect.selection").attr("width",0);
+                    // refresh annotations
+                    d3.selectAll("g.annotation-encircle").remove();
+                    createAnnotations();
+                     d3.selectAll("rect#zoom")
+                      .call(zoom.transform, d3.zoomIdentity
+                          .scale(1)
+                          .translate(0, 0));
+                    // zoomed();
+                        
+                } // updatePlot()
+            d3.selectAll(".btn.divisionfilter").on("click",function() {
+                   // http://stackoverflow.com/questions/9262827/twitter-bootstrap-onclick-event-on-buttons-radio 
+                   $(this).addClass('active').siblings().removeClass('active');
+                   chooseDataset();
+                   updatePlot();
+                   updateColorFilter();
+                   updateHeader();
+              });
+              d3.selectAll(".btn.entryfilter").on("click",function() {
+              
+                   // http://stackoverflow.com/questions/9262827/twitter-bootstrap-onclick-event-on-buttons-radio 
+                   $(this).addClass('active').siblings().removeClass('active');
+                   chooseDataset();
+                   updatePlot();
+                   updateColorFilter();
+                   updateHeader();
+              });
+              d3.selectAll(".btn.coursefilter").on("click",function() {
+              
+                   // http://stackoverflow.com/questions/9262827/twitter-bootstrap-onclick-event-on-buttons-radio 
+                   $(this).addClass('active').siblings().removeClass('active');
+                   chooseDataset();
+                   updatePlot();
+                   updateColorFilter();
+                   updateHeader();
+              });
+              d3.select("#toggle-annotations").on("click", function() {
+                  // NOTE: commenting this out because it doesn't work with anonymized/randomized data
+                  // showAnnotations();
+              });
+              d3.selectAll(".btn.vennmode").on("click", function() {
+                 $(this).addClass('active').siblings().removeClass('active');
+                  if(d3.select(".brush").property("__brush").selection) {brushed();}
+              });
+              // d3.selectAll(".btn.exportbrushsel").on("click",function() {
+                  
+              // });
+        }  // createPlot
+  
+</script>     -->                                                                                                                          
+</html>
